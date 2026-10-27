@@ -1,0 +1,70 @@
+rules_version = '2';
+
+// 合言葉・幹部パスワードは SHA-256 ハッシュをドキュメントIDにして joinKeys / adminKeys に置く。
+// どちらも読み取り禁止なので、正しい合言葉を知っている人だけが members / admins に自分を登録できる。
+service cloud.firestore {
+  match /databases/{db}/documents {
+    function signedIn() { return request.auth != null; }
+    function me() { return request.auth.uid; }
+    function isAdmin() { return signedIn() && exists(/databases/$(db)/documents/admins/$(me())); }
+    function isMember() { return signedIn() && (exists(/databases/$(db)/documents/members/$(me())) || isAdmin()); }
+    function setupDone() { return exists(/databases/$(db)/documents/config/setup); }
+    // 管理者 = 「はじめの設定」をした人。合言葉・幹部パスワードを変えられるのはこの人だけ
+    function ownerUid() { return get(/databases/$(db)/documents/config/setup).data.by; }
+    function isOwner() { return signedIn() && setupDone() && ownerUid() == me(); }
+    // 初回セットアップ: config/setup を作るのと同じ一括書き込みの中だけ許可
+    function firstSetup() {
+      return signedIn() && !setupDone() && existsAfter(/databases/$(db)/documents/config/setup);
+    }
+
+    match /config/setup {
+      allow read: if signedIn();
+      allow create: if signedIn() && !setupDone();
+    }
+    match /config/current {
+      allow read: if isMember();
+      allow write: if isAdmin();
+    }
+    match /lives/{id} {
+      allow read: if isMember();
+      allow write: if isAdmin() || firstSetup();
+    }
+
+    match /joinKeys/{key} {
+      allow read: if false;
+      allow create, delete: if isOwner() || firstSetup();
+    }
+    match /adminKeys/{key} {
+      allow read: if false;
+      allow create, delete: if isOwner() || firstSetup();
+    }
+    // 現在のキー(パスワード変更時に古いキーを消すため)
+    match /secrets/keys {
+      allow read: if isOwner();
+      allow write: if isOwner() || firstSetup();
+    }
+
+    match /members/{uid} {
+      allow read: if signedIn() && (uid == me() || isAdmin());
+      allow create: if signedIn() && uid == me()
+        && existsAfter(/databases/$(db)/documents/joinKeys/$(request.resource.data.key));
+      allow delete: if isAdmin() && uid != ownerUid();
+    }
+    match /admins/{uid} {
+      allow read: if signedIn() && (uid == me() || isAdmin());
+      allow create: if signedIn() && uid == me()
+        && existsAfter(/databases/$(db)/documents/adminKeys/$(request.resource.data.key));
+      allow delete: if (isAdmin() && uid != ownerUid()) || (signedIn() && uid == me());
+    }
+
+    // シート: 部員は自分のものだけ読み書き。review(幹部の確認)・owner・live は部員が変えられない
+    match /sheets/{id} {
+      allow read: if isAdmin() || (isMember() && resource.data.owner == me());
+      allow create: if isMember() && request.resource.data.owner == me()
+        && !('review' in request.resource.data);
+      allow update: if isAdmin() || (isMember() && resource.data.owner == me()
+        && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['owner', 'review', 'live', 'createdAt']));
+      allow delete: if isAdmin() || (isMember() && resource.data.owner == me());
+    }
+  }
+}

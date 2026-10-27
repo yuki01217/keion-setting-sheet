@@ -1,0 +1,15 @@
+# 部員の名前などが入った資料はリポジトリに入れない
+*.pdf
+*.xlsx
+*.csv
+
+# Firebase CLI
+.firebase/
+firebase-debug.log
+firestore-debug.log
+.firebaserc
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
