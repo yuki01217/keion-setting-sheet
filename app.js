@@ -175,7 +175,8 @@ function setHeader() {
   $("#brand-sub").textContent = adminView ? "幹部モード" : live ? "セッティングシート" : "軽音楽部";
   const chip = S.user ? `<span class="userchip">${S.user.photoURL ? `<img src="${esc(S.user.photoURL)}" alt="" referrerpolicy="no-referrer">` : ""}${esc(S.user.displayName || S.user.email || "")}</span>
     <button class="btn small ghost" id="nav-signout">ログアウト</button>` : "";
-  if (S.phase !== "ready") { $("#nav").innerHTML = chip; }
+  const guide = `<a class="btn ghost" href="guide.html">使い方</a>`;
+  if (S.phase !== "ready") { $("#nav").innerHTML = guide + chip; }
   else $("#nav").innerHTML = adminView
     ? `<span class="tape">幹部モード</span>
        <a class="btn ghost" href="#admin">提出一覧</a>
@@ -183,7 +184,7 @@ function setHeader() {
        <a class="btn" href="#">メンバー画面へ</a>`
     : `<a class="btn ghost" href="#">マイシート</a>
        ${live ? `<a class="btn primary" href="#submit">＋ シートを作成</a>` : ""}
-       <a class="btn" href="#admin">幹部</a>${chip}`;
+       ${guide}<a class="btn" href="#admin">幹部</a>${chip}`;
   const so = $("#nav-signout"); if (so) so.onclick = () => signOut(auth);
 }
 
@@ -201,7 +202,8 @@ function renderGate() {
     app().innerHTML = `<div class="login"><h1>軽音楽部 セッティングシート</h1>
       <p>ライブのセッティングシートを作成・提出するための部員専用ページです。Googleアカウントでログインしてください。</p>
       <div class="msg" id="pwmsg"></div>
-      <button class="gbtn" id="gsignin">${G_ICON}Googleでログイン</button></div>`;
+      <button class="gbtn" id="gsignin">${G_ICON}Googleでログイン</button>
+      <p>はじめての人は <a href="guide.html">使い方</a> を見てください。LINEの中で開いた場合は、SafariかChromeで開き直してください。</p></div>`;
     $("#gsignin").onclick = async () => {
       try { await signInWithPopup(auth, new GoogleAuthProvider()); }
       catch (e) { if (e.code !== "auth/popup-closed-by-user" && e.code !== "auth/cancelled-popup-request") $("#pwmsg").textContent = "ログインできませんでした。もう一度お試しください。"; }

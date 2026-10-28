@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>使い方 | 軽音セッティングシート</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700&display=swap">
+<link rel="stylesheet" href="style.css">
+<style>
+.guide { max-width: 760px; margin: 0 auto; padding-block: 20px 80px; }
+.guide h1 { font-size: 24px; font-weight: 900; margin: 0 0 6px; text-wrap: balance; }
+.guide .lead { color: var(--ink-2); margin: 0 0 18px; }
+.toc { background: var(--paper); border: 1.5px solid var(--line); border-radius: var(--r); padding: 12px 16px; margin-bottom: 26px; }
+.toc b { font-size: 12px; letter-spacing: .08em; color: var(--ink-2); }
+.toc ol { margin: 6px 0 0; padding-left: 1.4em; display: grid; gap: 2px; }
+.toc a { color: var(--accent); text-decoration: none; font-weight: 700; }
+.guide section { margin-bottom: 30px; scroll-margin-top: 80px; }
+.guide h2 { font-size: 18px; font-weight: 900; margin: 0 0 10px; padding-bottom: 6px; border-bottom: 2px solid var(--rule); display: flex; align-items: baseline; gap: 10px; }
+.guide h2 .n { font-family: var(--font-num); color: var(--accent); font-size: 15px; }
+.guide h3 { font-size: 15px; font-weight: 900; margin: 18px 0 6px; }
+.guide p, .guide li { line-height: 1.75; }
+.guide p { margin: 0 0 10px; }
+.guide ul, .guide ol.steps { margin: 0 0 12px; padding-left: 1.4em; }
+.guide li { margin-bottom: 4px; }
+.ui { display: inline-block; border: 1.5px solid var(--rule); border-radius: 5px; padding: 0 7px; font-size: 13px; font-weight: 700; background: var(--paper); white-space: nowrap; line-height: 1.6; }
+.ui.p { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.box { border-radius: var(--r); padding: 10px 14px; margin: 10px 0 14px; font-size: 14px; }
+.box.warn { background: var(--fix-soft); color: var(--fix); }
+.box.tip { background: var(--accent-soft); }
+.box.ok { background: var(--ok-soft); }
+.box b { display: block; margin-bottom: 2px; }
+.box p, .box li { margin: 0; line-height: 1.65; }
+table.g { width: 100%; border-collapse: collapse; font-size: 14px; margin: 6px 0 14px; }
+table.g th, table.g td { border: 1px solid var(--line); padding: 6px 8px; text-align: left; vertical-align: top; }
+table.g th { background: var(--accent-soft); font-size: 12.5px; white-space: nowrap; }
+.tbl { overflow-x: auto; }
+details.faq { background: var(--paper); border: 1.5px solid var(--line); border-radius: var(--r); padding: 8px 14px; margin-bottom: 8px; }
+details.faq summary { font-weight: 700; cursor: pointer; }
+details.faq p { margin: 8px 0 2px; }
+.backtop { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 30px; }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="./"><b>セッティングシート</b><span>使い方</span></a>
+    <nav class="nav"><a class="btn primary" href="./">アプリを開く</a></nav>
+  </div>
+</header>
+<main class="wrap">
+<div class="guide">
+  <h1>セッティングシートの使い方</h1>
+  <p class="lead">ライブのセッティングシートを、スマホやパソコンから作成・提出・PDF保存できるアプリです。提出したシートは幹部が確認して、結果がアプリに表示されます。</p>
+
+  <nav class="toc" aria-label="目次">
+    <b>目次</b>
+    <ol>
+      <li><a href="#open">アプリを開く</a></li>
+      <li><a href="#login">はじめてのログイン</a></li>
+      <li><a href="#create">シートを作る</a></li>
+      <li><a href="#stage">セッティング図の描き方</a></li>
+      <li><a href="#submit">提出と確認結果</a></li>
+      <li><a href="#fix">直したいとき・要修正のとき</a></li>
+      <li><a href="#pdf">PDFで保存する</a></li>
+      <li><a href="#faq">困ったとき</a></li>
+      <li><a href="#admin">幹部の人へ</a></li>
+    </ol>
+  </nav>
+
+  <section id="open">
+    <h2><span class="n">1</span>アプリを開く</h2>
+    <p>部のLINEで送られたリンクから開きます。</p>
+    <div class="box warn"><b>LINEの中で開くとログインできません</b>
+      <p>LINEのトーク画面の中でページが開いた場合は、右上の <span class="ui">︙</span> や共有ボタンから「<b>ブラウザで開く</b>」を選んでください。iPhoneは <b>Safari</b>、Androidは <b>Chrome</b> で開けばOKです。</p></div>
+    <div class="box tip"><b>ホーム画面に追加すると便利</b>
+      <p>Safariなら共有ボタン →「ホーム画面に追加」、Chromeなら <span class="ui">︙</span> →「ホーム画面に追加」で、アプリのように開けます。</p></div>
+  </section>
+
+  <section id="login">
+    <h2><span class="n">2</span>はじめてのログイン</h2>
+    <ol class="steps">
+      <li><span class="ui">Googleでログイン</span> を押して、自分のGoogleアカウントを選びます。</li>
+      <li>「部の合言葉を入力」の画面が出たら、部のLINEで伝えられた<b>合言葉</b>を入れて <span class="ui p">確認する</span> を押します。</li>
+      <li>「マイシート」の画面が出たら準備完了です。</li>
+    </ol>
+    <p>合言葉を入れるのは最初の1回だけです。次からはログインするだけで使えます。</p>
+    <div class="box warn"><b>合言葉は部外の人に教えないでください</b><p>合言葉を知っていると、誰でも部員として登録できてしまいます。</p></div>
+  </section>
+
+  <section id="create">
+    <h2><span class="n">3</span>シートを作る</h2>
+    <p>マイシートの <span class="ui p">＋ セッティングシートを作成</span> を押します。<b>シートはバンドの代表者が1枚だけ</b>作ってください。</p>
+    <p>上から順に入力していきます。<b>バンド名</b>と<b>代表者氏名</b>は必須です。</p>
+
+    <div class="tbl"><table class="g">
+      <tr><th>項目</th><th>入れ方</th></tr>
+      <tr><td>出演日・出演順</td><td>決まっていれば選びます。出演順は <span class="ui">−</span> <span class="ui">＋</span> で変えられます。未定なら空のままでOKです。</td></tr>
+      <tr><td>出演時間</td><td>開始と終了の時刻を入れます（例：13:00〜13:05）。</td></tr>
+      <tr><td>出演者 / パート</td><td>名前を入れて、下のボタンでパートを選びます。<b>兼任は複数タップ</b>してください（例：<span class="ui">Gt</span>＋<span class="ui">Vo</span> → PDFには「Gt.Vo」と出ます）。ボタンにないパートは「その他」に書きます。人数が多いときは <span class="ui">＋ 出演者を追加</span>（10人まで）。</td></tr>
+      <tr><td>使用機材</td><td>使うものにチェックします。リストにない機材は <span class="ui">＋ その他の機材を追加</span> で、いくつでも書けます。SE・同期を使う場合もチェックします。</td></tr>
+      <tr><td>曲順 / 曲名</td><td>演奏する順に曲名を入れます。MCも1行として入れておくと、時間が分かりやすくなります。</td></tr>
+      <tr><td>演奏時間</td><td>「分」と「秒」を選びます（例：4分00秒）。</td></tr>
+      <tr><td>PA・その他要望</td><td>照明や音量の希望など、曲ごとに書きます（150文字まで）。長いと欄が自動で広がります。</td></tr>
+      <tr><td>セッティング図</td><td>次の「<a href="#stage">セッティング図の描き方</a>」を見てください。</td></tr>
+      <tr><td>備考欄</td><td>転換で気をつけること、持ち込み機材など、ほかに伝えたいことを書きます。</td></tr>
+    </table></div>
+
+    <div class="box tip"><b>途中で閉じても大丈夫</b><p>提出する前の入力内容は、そのスマホ（ブラウザ）に自動で保存されます。もう一度「シートを作成」を開くと続きから書けます。</p></div>
+  </section>
+
+  <section id="stage">
+    <h2><span class="n">4</span>セッティング図の描き方</h2>
+    <p>ステージを上から見た図です。上が奥（ドラム側）、下が<b>客席側</b>、左が<b>下手</b>、右が<b>上手</b>です。</p>
+    <ul>
+      <li><b>動かす</b>：機材を指（マウス）で押したまま動かします。</li>
+      <li><b>丸で囲む</b>：「使用機材」でチェックした機材は、図でも自動で丸で囲まれます。手動で付け外しするときは、機材をタップして <span class="ui">○ 使用 (丸で囲む)</span>。</li>
+      <li><b>立ち位置</b>：<span class="ui">＋ 立ち位置</span> で、矢印付きの人のマークを置けます。矢印は向いている方向です。<span class="ui">↺ 15°</span> <span class="ui">↻ 15°</span> で向きを変えられます。</li>
+      <li><b>機材を足す</b>：上のボタン（<span class="ui">＋ JC</span> <span class="ui">＋ Mic</span> など）で追加します。リストにないものは <span class="ui">＋ その他</span> を置いて、名前を書き換えてください。</li>
+      <li><b>回転・名前変更・削除</b>：機材をタップすると、図の下に操作ボタンが出ます。</li>
+      <li><b>やり直す</b>：<span class="ui">初期配置に戻す</span> で最初の状態に戻ります。</li>
+    </ul>
+  </section>
+
+  <section id="submit">
+    <h2><span class="n">5</span>提出と確認結果</h2>
+    <p>入力できたら、一番下の <span class="ui p">提出する</span> を押します。提出したシートはマイシートに並びます。</p>
+    <p>幹部がシートを確認すると、マイシートの表示が変わります。</p>
+    <div class="tbl"><table class="g">
+      <tr><th>表示</th><th>意味</th><th>やること</th></tr>
+      <tr><td><span class="pill pending">未確認</span></td><td>まだ幹部が見ていません</td><td>待っていてください</td></tr>
+      <tr><td><span class="pill ok">確認済</span></td><td>OKです</td><td>なし</td></tr>
+      <tr><td><span class="pill fix">要修正</span></td><td>直してほしいところがあります</td><td>コメントを読んで直す（<a href="#fix">次の項目</a>）</td></tr>
+      <tr><td><span class="pill resub">再提出</span></td><td>確認のあとに直して保存しました</td><td>幹部の再確認を待つ</td></tr>
+    </table></div>
+    <div class="box ok"><b>自分のシートは自分と幹部しか見られません</b><p>ほかのバンドのシートは見えないので、安心して書いてください。</p></div>
+  </section>
+
+  <section id="fix">
+    <h2><span class="n">6</span>直したいとき・要修正のとき</h2>
+    <ol class="steps">
+      <li>マイシートで直したいシートを押します。</li>
+      <li>「要修正」の場合は、下の「幹部の確認」に直してほしい点が書いてあります。</li>
+      <li>上の <span class="ui">編集</span> を押して直し、<span class="ui p">変更を保存</span> を押します。</li>
+    </ol>
+    <p>確認済のあとでも、編集はできます。直すと「再提出」になり、幹部がもう一度確認します。</p>
+    <p>シートを間違えて作ったときは、シートを開いて <span class="ui">削除</span> で消せます（元に戻せません）。</p>
+  </section>
+
+  <section id="pdf">
+    <h2><span class="n">7</span>PDFで保存する</h2>
+    <p>シートを開いて <span class="ui">PDFで保存</span> を押すと、紙のセッティングシートと同じ形のPDFがダウンロードされます。</p>
+    <ul>
+      <li>当日の印刷は幹部がまとめて行うので、<b>自分で印刷して持ってくる必要はありません</b>（指示があった場合を除く）。</li>
+      <li>バンドのメンバーに共有したいときなどに使ってください。</li>
+    </ul>
+  </section>
+
+  <section id="faq">
+    <h2><span class="n">8</span>困ったとき</h2>
+    <details class="faq"><summary>ログインできない／「Googleでログイン」を押しても何も起きない</summary>
+      <p>LINEやInstagramの中で開いていませんか？ SafariかChromeで開き直してください。それでもだめなら、ブラウザのポップアップブロックを切ってください。</p></details>
+    <details class="faq"><summary>「合言葉が違います」と出る</summary>
+      <p>全角・半角や大文字・小文字が違うかもしれません。合言葉は幹部に確認してください。</p></details>
+    <details class="faq"><summary>「シートを作成」のボタンがない</summary>
+      <p>まだ提出を受け付けているライブがありません。幹部がライブを登録すると出てきます。</p></details>
+    <details class="faq"><summary>提出したシートが見当たらない</summary>
+      <p>シートを作ったときと同じGoogleアカウントでログインしているか確認してください。別のアカウントだと、自分のシートとして表示されません。</p></details>
+    <details class="faq"><summary>機種を変えた・別のスマホから使いたい</summary>
+      <p>同じGoogleアカウントでログインすれば、提出済みのシートはそのまま見られます。提出前の書きかけは、前のスマホにしか残っていません。</p></details>
+    <details class="faq"><summary>表示がおかしい・ボタンが動かない</summary>
+      <p>ページを再読み込みしてください。直らないときは、どの画面で何をしたらどうなったか、スクリーンショットを添えて幹部に教えてください。</p></details>
+  </section>
+
+  <section id="admin">
+    <h2><span class="n">9</span>幹部の人へ</h2>
+    <p>画面右上の <span class="ui">幹部</span> を押して、幹部パスワードを入れると幹部画面に入れます（最初の1回だけ）。</p>
+    <div class="tbl"><table class="g">
+      <tr><th>画面</th><th>できること</th></tr>
+      <tr><td>提出一覧</td><td>全バンドのシートを、出演日・出演順に見られます。検索や日にちでの絞り込みもできます。</td></tr>
+      <tr><td>シートの確認</td><td>シートを開いて <span class="ui">確認済にする</span> か、コメントを書いて <span class="ui">要修正で返す</span>。</td></tr>
+      <tr><td>まとめてPDF</td><td>表示中のシートを出演順に並べて1つのPDFにします。日にちのタブで絞ってから押すと、その日の分だけになります。<b>当日の印刷用</b>です。</td></tr>
+      <tr><td>ライブ設定</td><td>ライブ名・日程・会場・持ち時間・使用機材のリスト・セッティング図の初期配置を決めます。提出を受け付けるライブは1つだけで、<span class="ui">受付中にする</span> で切り替えます。</td></tr>
+      <tr><td>幹部・部員</td><td>登録されている人の一覧です。卒業・退部した人は削除できます。</td></tr>
+    </table></div>
+    <div class="box warn"><b>幹部パスワードは部員に教えないでください</b><p>合言葉・幹部パスワードの変更は、管理者だけができます。変えたいときは管理者に連絡してください。</p></div>
+  </section>
+
+  <div class="backtop"><a class="btn primary" href="./">アプリを開く</a><a class="btn" href="#">ページの上へ</a></div>
+</div>
+</main>
+</body>
+</html>
