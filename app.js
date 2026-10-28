@@ -1005,7 +1005,7 @@ function printHTML(s) {
     <div class="gap"></div>
     <div class="box"><span class="cap">セッティング図</span><div class="stage">${stageHTML(s.layout || [])}</div></div>
     <div class="gap"></div>
-    <div class="box notes" style="height:60px;padding:21px 6px 3px;white-space:pre-wrap;overflow-wrap:anywhere;overflow:hidden;font-size:12px;line-height:1.35"><span class="cap">備考欄</span>${esc(s.notes)}</div>
+    <div class="box notes" style="height:120px;padding:21px 6px 3px;white-space:pre-wrap;overflow-wrap:anywhere;overflow:hidden;font-size:12px;line-height:1.35"><span class="cap">備考欄</span>${esc(s.notes)}</div>
     <div class="foot"><span>開催場所：${esc(live.venue)}</span><span>${esc(live.dateText)}</span></div>
   </div>`;
 }
@@ -1018,7 +1018,7 @@ function fitNotes(pp) {
   let f = 12;
   box.style.fontSize = f + "px";
   while (box.scrollHeight > maxH && f > 6.5) { f -= 0.5; box.style.fontSize = f + "px"; }
-  box.style.height = Math.max(60, Math.min(box.scrollHeight, maxH)) + "px";
+  box.style.height = Math.min(Math.max(120, box.scrollHeight), maxH) + "px";
 }
 // シートを1ページずつ描いて1つのPDFにする
 async function savePDF(sheets, filename, btn) {

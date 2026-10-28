@@ -238,11 +238,11 @@ table.t td.num { font-family: var(--font-num); white-space: nowrap; text-align: 
 .pp td.sm { font-size: 10px; text-overflow: ellipsis; }
 .pp td.pa { font-size: 12px; }
 .pp .thick { border: 2.5px solid #000; }
-.pp .gap { height: 16px; }
+.pp .gap { height: 13px; }
 .pp .flex { display: flex; justify-content: space-between; align-items: flex-start; }
 .pp .box { border: 2.5px solid #000; position: relative; }
 .pp .box .cap { position: absolute; left: 3px; top: 1px; font-size: 13.5px; z-index: 1; border-bottom: 1px solid #000; line-height: 1.2; }
-.pp .stage { border: 0; background: #fff; aspect-ratio: auto; height: 230px; --ink: #000; --paper: #fff; --ink-2: #555; }
+.pp .stage { border: 0; background: #fff; aspect-ratio: auto; height: 210px; --ink: #000; --paper: #fff; --ink-2: #555; }
 .pp .stage .side, .pp .stage .front { display: none; }
 .pp .cb { display: inline-block; width: 15px; height: 15px; vertical-align: middle; position: relative; }
 .pp .cb.on { background: #111; border-radius: 3px; }
