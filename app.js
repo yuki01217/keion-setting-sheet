@@ -15,7 +15,7 @@ function parsePart(str) {
 }
 const composePart = (sel, other) => [...PART_KEYS.filter((k) => sel.has(k)), ...(other.trim() ? [other.trim()] : [])].join(".");
 const SIZES = {
-  drs: [12.5, 10.5], amp: [12, 4.8], key: [14, 4.8], person: [4.2, 9], mic: [4.2, 4.2], mon: [9, 4.2], memo: [12, 4.5],
+  drs: [12.5, 10.5], amp: [12, 4.8], key: [14, 4.8], person: [4.2, 4.2], mic: [4.2, 4.2], mon: [9, 4.2], memo: [12, 4.5],
 };
 const PALETTE = [
   ["person", "立ち位置"], ["drs", "Dr.set"], ["amp", "JC"], ["amp", "Marshall"], ["amp", "ENGL"], ["amp", "Ba.amp"],
@@ -586,7 +586,8 @@ function updateTimebar() {
 }
 
 /* ---------- セッティング図 ---------- */
-const PERSON_SVG = `<svg viewBox="0 0 20 44" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2 L10 42 M4 9 L10 2 L16 9"/><ellipse cx="10" cy="30" rx="6.5" ry="7.5"/></svg>`;
+// 立ち位置は × で示す
+const PERSON_SVG = `<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M4 4 L16 16 M16 4 L4 16"/></svg>`;
 function stageHTML(layout, selIdx = -1) {
   return `<span class="side l">下手</span><span class="side r">上手</span>
     ${layout.map((it, i) => {
@@ -642,7 +643,7 @@ function drawStage() {
 function drawSelTools() {
   const box = $("#seltools"); if (!box || !SE) return;
   const layout = SE.get(), it = layout[S.sel];
-  if (!it) { box.innerHTML = `<span class="hint">ドラッグで移動、タップで選択すると回転・名前の変更・丸囲み・削除ができます。「＋ 立ち位置」で矢印付きの立ち位置を置けます。</span>`; return; }
+  if (!it) { box.innerHTML = `<span class="hint">ドラッグで移動、タップで選択すると回転・名前の変更・丸囲み・削除ができます。「＋ 立ち位置」で立ち位置の × を置けます。</span>`; return; }
   box.innerHTML = `<strong>選択中:</strong>
     <input class="in" id="sel-label" value="${esc(it.label)}" aria-label="表示名" placeholder="名前を入力">
     ${it.t === "memo" ? `<span class="hint">← 「その他」は好きな名前に書き換えられます</span>` : ""}
