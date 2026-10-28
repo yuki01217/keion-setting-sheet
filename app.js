@@ -942,25 +942,39 @@ function fit(text, w, base = 13.5) {
 }
 const textUnits = (t) => [...String(t || "")].reduce((a, ch) => a + (ch.charCodeAt(0) < 0x80 ? 0.56 : ch >= "\uff61" && ch <= "\uff9f" ? 0.5 : 1), 0);
 // 曲の表: 長いPA要望や曲名は行の高さを2〜3行分に広げ、曲名・演奏時間のセルも同じ高さにする。
-// 広げた分は下の空き行を減らし、表全体は10行分のまま。入りきらないときだけ文字を小さくする
+// 広げた分は下の空き行を減らし、表全体は10行分のまま。
+// 10行分を超えるときは、一番長い曲から1行分ずつ縮め、縮めた曲だけ文字を小さくして収める
 function songRowsHTML(list) {
-  const PA_W = 396, TITLE_W = 154, ROW = 24, TOTAL = 10;
+  const PA_W = 396, TITLE_W = 154, ROW = 24, TOTAL = 10, LH = 1.25;
   const need = (t, w, f) => Math.min(3, Math.max(1, Math.ceil((textUnits(t) * f) / (w * 0.92))));
   const songs = list.slice(0, TOTAL);
   const lines = songs.map((x) => Math.max(need(x.pa, PA_W, 12), need(x.title, TITLE_W, 13.5)));
-  const used = lines.reduce((a, n) => a + n, 0);
-  if (used > TOTAL) {
-    return Array.from({ length: TOTAL }, (_, i) => songs[i] || {})
-      .map((x) => `<tr><td>${fit(x.title, TITLE_W)}</td><td>${esc(x.time || ":")}</td><td class="pa">${fit(x.pa, PA_W, 12)}</td></tr>`).join("");
+  const size = (x) => textUnits(x.pa) + textUnits(x.title);
+  while (lines.reduce((a, n) => a + n, 0) > TOTAL) {
+    let k = -1;
+    lines.forEach((n, i) => { if (n > 1 && (k < 0 || n > lines[k] || (n === lines[k] && size(songs[i]) > size(songs[k])))) k = i; });
+    lines[k]--;
   }
-  const wrap = (t, f) => `<div class="wrapcell" style="font-size:${f}px">${esc(t)}</div>`;
-  // 行が広がったら曲名・演奏時間の文字も大きくする (曲名は枠に入る大きさまで)
+  // 高さ h のセルに入る一番大きい文字で表示する (base から 0.5px ずつ小さく)
+  const fitBox = (t, w, h, base) => {
+    if (!t) return "";
+    let f = base;
+    for (; f > 6.5; f -= 0.5) {
+      const maxLines = Math.max(1, Math.floor((h - 3) / (f * LH)));
+      if (textUnits(t) * f <= w * maxLines * 0.92) break;
+    }
+    return f === base && textUnits(t) * f <= w * 0.92 && h === ROW ? esc(t)
+      : `<div class="wrapcell" style="font-size:${f}px;line-height:${LH};max-height:${h - 2}px">${esc(t)}</div>`;
+  };
+  // 行が広がったら曲名・演奏時間の文字も大きくする
   const BIG = { 1: 13.5, 2: 17, 3: 20 };
-  const titleFont = (t, n) => { let f = BIG[n]; while (f > 13.5 && need(t, TITLE_W, f) > n) f -= 0.5; return f; };
   const rows = songs.map((x, i) => {
-    const n = lines[i], h = n * ROW, tf = titleFont(x.title, n);
-    return `<tr style="height:${h}px"><td style="height:${h}px">${n > 1 ? wrap(x.title, tf) : esc(x.title)}</td><td style="height:${h}px${n > 1 ? `;font-size:${BIG[n]}px` : ""}">${esc(x.time || ":")}</td><td class="pa" style="height:${h}px">${n > 1 ? wrap(x.pa, 12) : esc(x.pa)}</td></tr>`;
+    const n = lines[i], h = n * ROW;
+    return `<tr style="height:${h}px"><td style="height:${h}px">${fitBox(x.title, TITLE_W, h, BIG[n])}</td>`
+      + `<td style="height:${h}px${n > 1 ? `;font-size:${BIG[n]}px` : ""}">${esc(x.time || ":")}</td>`
+      + `<td class="pa" style="height:${h}px">${fitBox(x.pa, PA_W, h, 12)}</td></tr>`;
   });
+  const used = lines.reduce((a, n) => a + n, 0);
   for (let i = used; i < TOTAL; i++) rows.push(`<tr><td></td><td>:</td><td class="pa"></td></tr>`);
   return rows.join("");
 }

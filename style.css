@@ -236,7 +236,7 @@ table.t td.num { font-family: var(--font-num); white-space: nowrap; text-align: 
 .pp td { border: 1px solid #000; padding: 0 4px; height: 24px; font-weight: 400; overflow: hidden; white-space: nowrap; text-align: center; vertical-align: middle; }
 .pp td.l { text-align: left; }
 .pp td.sm { font-size: 10px; text-overflow: ellipsis; }
-.pp td.pa { font-size: 12px; }
+.pp td.pa { font-size: 12px; text-align: left; padding-left: 6px; }
 .pp .thick { border: 2.5px solid #000; }
 .pp .gap { height: 13px; }
 .pp .flex { display: flex; justify-content: space-between; align-items: flex-start; }
@@ -360,3 +360,4 @@ table.t td.num { font-family: var(--font-num); white-space: nowrap; text-align: 
 /* PA要望: 長さに合わせて広がる入力欄 */
 .line .in.pa.grow { resize: none; min-height: 0; overflow: hidden; line-height: 1.45; padding-block: 6px; }
 .pp .wrapcell { white-space: normal; word-break: break-all; overflow-wrap: anywhere; line-height: 1.35; }
+.pp .wrapcell { overflow: hidden; }
