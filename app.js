@@ -485,7 +485,7 @@ function renderForm() {
 
       <div class="sec">
         <div class="sec-h">備考欄</div>
-        <div class="sec-b"><textarea class="in" id="f-notes" data-k="notes" placeholder="転換で気をつけること、持ち込み機材など">${esc(f.notes)}</textarea></div>
+        <div class="sec-b"><textarea class="in" id="f-notes" data-k="notes" maxlength="400" placeholder="転換で気をつけること、持ち込み機材など (400文字まで)">${esc(f.notes)}</textarea></div>
       </div>
     </form>
     <div class="formbar">
@@ -1005,11 +1005,21 @@ function printHTML(s) {
     <div class="gap"></div>
     <div class="box"><span class="cap">セッティング図</span><div class="stage">${stageHTML(s.layout || [])}</div></div>
     <div class="gap"></div>
-    <div class="box" style="height:60px;padding:21px 6px 2px;white-space:pre-wrap;overflow:hidden;font-size:12px;line-height:1.35"><span class="cap">備考欄</span>${esc(s.notes)}</div>
+    <div class="box notes" style="height:60px;padding:21px 6px 3px;white-space:pre-wrap;overflow-wrap:anywhere;overflow:hidden;font-size:12px;line-height:1.35"><span class="cap">備考欄</span>${esc(s.notes)}</div>
     <div class="foot"><span>開催場所：${esc(live.venue)}</span><span>${esc(live.dateText)}</span></div>
   </div>`;
 }
 const cleanName = (t) => String(t || "").replace(/[\\/:*?"<>|]/g, "");
+// 備考欄: 長いときはフッターの手前まで広げ、それでも入らなければ文字を小さくする
+function fitNotes(pp) {
+  const box = pp.querySelector(".notes"), foot = pp.querySelector(".foot");
+  const maxH = foot.offsetTop - 10 - box.offsetTop;
+  box.style.height = "auto";
+  let f = 12;
+  box.style.fontSize = f + "px";
+  while (box.scrollHeight > maxH && f > 6.5) { f -= 0.5; box.style.fontSize = f + "px"; }
+  box.style.height = Math.max(60, Math.min(box.scrollHeight, maxH)) + "px";
+}
 // シートを1ページずつ描いて1つのPDFにする
 async function savePDF(sheets, filename, btn) {
   if (!window.html2canvas || !window.jspdf) { toast("PDF作成の部品を読み込めませんでした"); return; }
@@ -1021,6 +1031,7 @@ async function savePDF(sheets, filename, btn) {
     for (let i = 0; i < sheets.length; i++) {
       btn.textContent = sheets.length > 1 ? `PDFを作成中… ${i + 1}/${sheets.length}` : "PDFを作成中…";
       root.innerHTML = printHTML(sheets[i]);
+      fitNotes(root.querySelector(".pp"));
       const canvas = await html2canvas(root.firstElementChild, { scale: 2, backgroundColor: "#ffffff", logging: false });
       if (i > 0) pdf.addPage();
       pdf.addImage(canvas.toDataURL("image/jpeg", 0.9), "JPEG", 0, 0, 210, 297);
