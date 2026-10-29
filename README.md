@@ -56,18 +56,28 @@
 4. **セキュリティルールを反映する**
    Firestore → ルール に `firestore.rules` の内容を貼り付けて公開します。
    Firebase CLIを使う場合は `firebase deploy --only firestore:rules` でも反映できます。
-5. **設定を貼り付ける**
-   プロジェクトの設定 → マイアプリ → ウェブアプリを追加し、表示された `firebaseConfig` を `firebase-config.js` に貼り付けます。
-   この値は公開されても問題ありません（データはルールで保護されます）。
+5. **設定をSecretsに登録する**
+   プロジェクトの設定 → マイアプリ → ウェブアプリを追加し、表示された `firebaseConfig` の `{ ... }` の部分をコピーします。
+   GitHubのリポジトリの Settings → Secrets and variables → Actions で、`FIREBASE_CONFIG` という名前のSecretに貼り付けます。
+   `firebase-config.js` はリポジトリに入れません（`.gitignore` 済み）。公開するときに GitHub Actions がSecretから作ります。
 6. **GitHub Pagesで公開する**
-   リポジトリの Settings → Pages で、公開するブランチ（例: `main` の `/ (root)`）を選びます。
+   リポジトリの Settings → Pages の Source を「GitHub Actions」にします。
+   `main` にpushすると `.github/workflows/deploy.yml` が動いて公開されます。
 7. **公開したドメインを許可する**
    Authentication → 設定 → 承認済みドメイン に `<ユーザー名>.github.io` を追加します。
+   Google Cloud コンソールの「APIとサービス → 認証情報」で、Firebaseが作ったブラウザ用APIキーにウェブサイトの制限
+   （`<ユーザー名>.github.io/*`、`<プロジェクトID>.firebaseapp.com/*`、`localhost:8000/*`）をかけておくと安全です。
 8. **はじめの設定**
    公開したページを開いてGoogleでログインすると「はじめの設定」が表示されます。部の合言葉と幹部パスワードを決めてください。設定した人が最初の幹部になります。
    この画面は誰でも最初の1回だけ開けるので、公開したらすぐに設定してください。
 
 ## ローカルで動かす
+
+`firebase-config.example.js` をコピーして `firebase-config.js` を作り、Firebaseの設定を貼り付けます。
+
+```sh
+cp firebase-config.example.js firebase-config.js
+```
 
 ES Modulesを使っているので、ファイルを直接開くのではなく、簡単なサーバー経由で開いてください。
 
@@ -78,13 +88,38 @@ python3 -m http.server 8000
 
 `localhost` はFirebaseの承認済みドメインに最初から入っています。
 
+### 機密情報のチェック
+
+commitのたびに [gitleaks](https://github.com/gitleaks/gitleaks) でAPIキーなどが入っていないか調べます。cloneしたら一度だけ有効にしてください。
+
+```sh
+sudo apt install gitleaks pre-commit
+pre-commit install
+```
+
 ## ファイル
 
 ```
-index.html          画面の骨組み
-style.css           デザイン（ライト / ダーク両対応）
-app.js              アプリ本体
-firebase-config.js  Firebaseの接続設定
-firestore.rules     セキュリティルール
-firebase.json       Firebase CLI用の設定
+index.html                  画面の骨組み
+style.css                   デザイン（ライト / ダーク両対応）
+app.js                      入口（ログイン状態を見て最初の画面を出す）
+js/
+  firebase.js               Firebaseの初期化
+  util.js                   小さな道具（DOM・文字列・時間・日付）
+  state.js                  アプリの状態と、ライブ・シートのデータを扱う関数
+  session.js                権限チェックとFirestoreの購読
+  router.js                 ヘッダーと画面の切り替え
+  gate.js                   ログイン・合言葉・はじめの設定・幹部ログイン
+  list.js                   マイシート・提出一覧
+  form.js                   提出フォーム
+  stage.js                  セッティング図
+  detail.js                 シートの詳細と確認
+  settings.js               ライブ設定・部員の管理
+  pdf.js                    PDF出力
+guide.html                  使い方ページ
+firebase-config.example.js  Firebaseの接続設定の見本（実物の firebase-config.js はgitに入れない）
+firestore.rules             セキュリティルール
+firebase.json               Firebase CLI用の設定
+.github/workflows/deploy.yml  GitHub Pagesへの公開（SecretsからFirebaseの設定を作る）
+.pre-commit-config.yaml     commit前のgitleaksチェック
 ```
