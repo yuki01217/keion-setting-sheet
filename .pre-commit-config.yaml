@@ -1,0 +1,10 @@
+# commit のたびに gitleaks で機密情報が入っていないか調べる
+# clone した後に一度だけ `pre-commit install` を実行する
+repos:
+  - repo: local
+    hooks:
+      - id: gitleaks
+        name: gitleaks (機密情報チェック)
+        entry: gitleaks protect --staged --redact --verbose
+        language: system
+        pass_filenames: false
