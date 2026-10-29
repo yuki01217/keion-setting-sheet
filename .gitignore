@@ -13,3 +13,5 @@ firestore-debug.log
 .DS_Store
 Thumbs.db
 desktop.ini
+# Firebaseの設定 (実際の値はgitに入れない)
+firebase-config.js
